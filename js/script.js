@@ -2,11 +2,56 @@ const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
 context.scale(20, 20);
 
-const matrix = [
-    [0, 0, 0],
-    [1, 1, 1],
-    [0, 1, 0],
-];
+//Incluir novos formatos de peças, ampliando a variedade e a complexidade do jogo
+//Implementar progressão de velocidade: a cada 50 pontos acumulados, a velocidade do jogo 
+//deverá ser aumentada automaticamente, 
+//tornando a jogabilidade mais desafiadora à medida que o jogador avança.
+function createPiece(type) {
+    if (type === 'T') {
+        return [
+            [0, 0, 0],
+            [1, 1, 1],
+            [0, 1, 0],
+        ];
+    } else if (type === 'O') {
+        return [
+            [2, 2],
+            [2, 2],
+        ];
+    } else if (type === 'L') {
+        return [
+            [0, 3, 0],
+            [0, 3, 0],
+            [0, 3, 3],
+        ];
+    } else if (type === 'J') {
+        return [
+            [0, 4, 0],
+            [0, 4, 0],
+            [4, 4, 0],
+        ];
+    } else if (type === 'I') {
+        return [
+            [0, 5, 0, 0],
+            [0, 5, 0, 0],
+            [0, 5, 0, 0],
+            [0, 5, 0, 0],
+        ];
+    } else if (type === 'S') {
+        return [
+            [0, 6, 6],
+            [6, 6, 0],
+            [0, 0, 0],
+        ];
+    } else if (type === 'Z') {
+        return [
+            [7, 7, 0],
+            [0, 7, 7],
+            [0, 0, 0],
+        ];
+    }
+}
+
 
 function createMatrix(w, h) {
     const matrix = [];
@@ -26,6 +71,7 @@ function drawMatrix(matrix, offset) {
         });
     });
 }
+
 
 function merge(arena, player) {
     player.matrix.forEach((row, y) => {
@@ -71,7 +117,8 @@ function playerMove(dir) {
 }
 
 function playerReset() {
-    player.matrix = matrix;
+    const pieces = 'TJLOSZI';
+    player.matrix = createPiece(pieces[Math.floor(Math.random() * pieces.length)]);
     player.pos.y = 0;
     player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0);
     if (collide(arena, player)) {
@@ -114,6 +161,10 @@ function arenaSweep() {
         ++y;
 
         score += rowCount * 10;
+        if (score % 50 === 0 && dropInterval > 200) {
+        dropInterval -= 100;
+}
+
         rowCount *= 2;
     }
 }
@@ -146,8 +197,9 @@ function update(time = 0) {
 const arena = createMatrix(12, 20);
 const player = {
     pos: { x: 0, y: 0 },
-    matrix: matrix
+    matrix: null
 };
+
 
 document.addEventListener('keydown', event => {
     switch (event.key) {
