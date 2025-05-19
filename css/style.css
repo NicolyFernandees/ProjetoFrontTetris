@@ -10,11 +10,11 @@ body {
 
 canvas {
     background: #222;
-    box-shadow: 0 0 20px #0ff;
+    box-shadow: 0 0 20px #4b204b;
 }
 
 #score {
     margin-left: 20px;
     font-size: 24px;
-    color: #0ff;
+    color: #4b0082;
 }

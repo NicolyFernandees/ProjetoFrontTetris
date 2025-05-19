@@ -65,7 +65,7 @@ function drawMatrix(matrix, offset) {
     matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                context.fillStyle = 'cyan';
+                context.fillStyle = '#4b204b';
                 context.fillRect(x + offset.x, y + offset.y, 1, 1);
             }
         });
